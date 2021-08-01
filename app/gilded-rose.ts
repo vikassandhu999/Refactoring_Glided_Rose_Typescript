@@ -35,14 +35,22 @@ export class GildedRose {
             qualityAdjustment*=2;
         }
         if (this.isAgedBrie(item)) {
-            qualityAdjustment = sellInExpired ? 2 : 1;
+            qualityAdjustment = this.getQualityAdjustmentForAgedBrie(sellInExpired);
         }
         if (this.isBackstagePasses(item)) {
-            qualityAdjustment = sellInExpired ? -item.quality : (item.sellIn <= 5 ? 3 : item.sellIn <= 10 ? 2 : 0);
+            qualityAdjustment = this.getQualityAdjustmentForBackstagePasses(sellInExpired, item);
         }
 
         this.adjustQuality(item, qualityAdjustment);
         item.sellIn--;
+    }
+
+    private getQualityAdjustmentForAgedBrie(sellInExpired: boolean) {
+        return sellInExpired ? 2 : 1;
+    }
+
+    private getQualityAdjustmentForBackstagePasses(sellInExpired: boolean, item: Item) {
+        return sellInExpired ? -item.quality : (item.sellIn <= 5 ? 3 : item.sellIn <= 10 ? 2 : 0);
     }
 
     private isBackstagePasses(item: Item) {
