@@ -30,27 +30,19 @@ export class GildedRose {
 
     private updateItemQuality(item: Item) {
         if (item.name != this._agedBrie && item.name != this._backstagePasses) {
-            if (item.quality > 0) {
                 if (item.name != this._sulfuras) {
-                    item.quality = item.quality - 1
+                    this.adjustQuality(item,-1);
                 }
-            }
         } else {
-            if (item.quality < 50) {
-                item.quality = item.quality + 1
+               this.adjustQuality(item,1);
                 if (item.name == this._backstagePasses) {
                     if (item.sellIn < 11) {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1
-                        }
+                            this.adjustQuality(item,1);
                     }
                     if (item.sellIn < 6) {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1
-                        }
+                            this.adjustQuality(item,1);
                     }
                 }
-            }
         }
         if (item.name != this._sulfuras) {
             item.sellIn = item.sellIn - 1;
@@ -58,19 +50,22 @@ export class GildedRose {
         if (item.sellIn < 0) {
             if (item.name != this._agedBrie) {
                 if (item.name != this._backstagePasses) {
-                    if (item.quality > 0) {
                         if (item.name != this._sulfuras) {
-                            item.quality = item.quality - 1
+                            this.adjustQuality(item,-1);
                         }
-                    }
                 } else {
                     item.quality = item.quality - item.quality
                 }
             } else {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1
-                }
+                    this.adjustQuality(item,1);
             }
+        }
+    }
+
+    adjustQuality(item : Item,adjustment : number) {
+        let adjustedQuality = item.quality + adjustment;
+        if(adjustedQuality>=0&&adjustedQuality<=50) {
+            item.quality=adjustedQuality;
         }
     }
 }
