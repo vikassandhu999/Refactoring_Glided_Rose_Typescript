@@ -12,8 +12,9 @@ export class Item {
 export class GildedRose {
     items: Array<Item>;
     private readonly _agedBrie = 'Aged Brie';
-    private readonly _backstagePasses = 'Backstage passes';
-    private readonly _sulfuras = 'Sulfuras';
+    private readonly _backstagePasses = 'Backstage passes to a TAFKAL80ETC concert';
+    private readonly _sulfuras = 'Sulfuras, Hand of Ragnaros';
+    private readonly _conjured = "Conjured";
 
     constructor(items = [] as Array<Item>) {
         this.items = items;
@@ -28,6 +29,9 @@ export class GildedRose {
         if (item.name === this._sulfuras) return;
         const sellInExpired = item.sellIn <= 0;
         let qualityAdjustment = sellInExpired ? -2 : -1;
+        if(item.name === this._conjured) {
+            qualityAdjustment*=2;
+        }
         if (item.name === this._agedBrie) {
             qualityAdjustment = sellInExpired ? 2 : 1;
         }

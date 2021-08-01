@@ -67,7 +67,7 @@ describe('Gilded Rose', function () {
     });
 
     it('should_not_change_quality_or_sellIn_for_Sulfuras', function() {
-        const items = [new Item("Sulfuras", 2, 5)];
+        const items = [new Item("Sulfuras, Hand of Ragnaros", 2, 5)];
         const gildedRose = new GildedRose(items);
         const days = items[0].sellIn;
         let previousQuality = items[0].quality;
@@ -80,7 +80,7 @@ describe('Gilded Rose', function () {
     });
 
     it('should_not_change_quality_or_sellIn_for_Sulfuras', function() {
-        const items = [new Item("Sulfuras", 2, 5)];
+        const items = [new Item("Sulfuras, Hand of Ragnaros", 2, 5)];
         const gildedRose = new GildedRose(items);
         const days = items[0].sellIn;
         let previousQuality = items[0].quality;
@@ -93,7 +93,7 @@ describe('Gilded Rose', function () {
     });
 
     it('should_change_quality_according_to_Backstage_passes', function() {
-        const items = [new Item("Backstage passes", 12, 5)];
+        const items = [new Item("Backstage passes to a TAFKAL80ETC concert", 12, 5)];
         const gildedRose = new GildedRose(items);
         const days = items[0].sellIn + 2;
         let previousQuality = items[0].quality;
@@ -111,5 +111,18 @@ describe('Gilded Rose', function () {
             previousSellIn = updatedItems[0].sellIn;
         }
     });
+
+    it('should_degrade_quality_by_2_every_day_when_for_Conjured', function() {
+        const items = [new Item("Conjured", 10, 23)];
+        const gildedRose = new GildedRose(items);
+        const days = items[0].sellIn-1;
+        let previousQuality = items[0].quality;
+        for(let day = 1;day<=days;day++) {
+            const updatedItems = gildedRose.updateQuality();
+            expect(updatedItems[0].quality).to.equal(previousQuality-2);
+            previousQuality = updatedItems[0].quality;
+        }
+    });
+
 
 });
