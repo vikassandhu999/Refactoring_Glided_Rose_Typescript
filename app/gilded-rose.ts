@@ -29,6 +29,10 @@ export class GildedRose {
     }
 
     private updateItemQuality(item: Item) {
+        if(item.name === this._sulfuras) return;
+
+        const sellInExpired = item.sellIn <= 0;
+
         if (item.name != this._agedBrie && item.name != this._backstagePasses) {
                 if (item.name != this._sulfuras) {
                     this.adjustQuality(item,-1);
@@ -44,20 +48,20 @@ export class GildedRose {
                     }
                 }
         }
+
         if (item.name != this._sulfuras) {
             item.sellIn = item.sellIn - 1;
         }
-        if (item.sellIn < 0) {
-            if (item.name != this._agedBrie) {
-                if (item.name != this._backstagePasses) {
-                        if (item.name != this._sulfuras) {
-                            this.adjustQuality(item,-1);
-                        }
-                } else {
-                    item.quality = item.quality - item.quality
-                }
+
+        if (sellInExpired) {
+            if (item.name === this._agedBrie) {
+                this.adjustQuality(item, 1);
             } else {
-                    this.adjustQuality(item,1);
+                if (item.name === this._backstagePasses) {
+                    item.quality = 0;
+                } else {
+                        this.adjustQuality(item, -1);
+                }
             }
         }
     }
