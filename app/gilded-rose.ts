@@ -27,8 +27,10 @@ export class GildedRose {
 
     private updateItemQuality(item: Item) {
         if (this.isSulfuras(item)) return;
+
         const sellInExpired = item.sellIn <= 0;
         let qualityAdjustment = sellInExpired ? -2 : -1;
+
         if(this.isConjured(item)) {
             qualityAdjustment*=2;
         }
@@ -38,6 +40,7 @@ export class GildedRose {
         if (this.isBackstagePasses(item)) {
             qualityAdjustment = sellInExpired ? -item.quality : (item.sellIn <= 5 ? 3 : item.sellIn <= 10 ? 2 : 0);
         }
+
         this.adjustQuality(item, qualityAdjustment);
         item.sellIn--;
     }
